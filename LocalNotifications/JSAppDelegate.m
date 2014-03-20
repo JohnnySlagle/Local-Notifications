@@ -44,14 +44,23 @@
     textLabel.textColor = [UIColor whiteColor];
     textLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:38.0f];
     textLabel.numberOfLines = 0;
+    textLabel.userInteractionEnabled = NO;
     
     [self.window addSubview:textLabel];
+    
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(suspendMe)];
+    [self.window addGestureRecognizer:gestureRecognizer];
     
     // Show Window
     [self.window makeKeyAndVisible];
     return YES;
 }
 
+- (void)suspendMe {
+    // Note: This is a private API, I think? I would guess the app wouldn't get approved if you use this.
+    UIApplication *app = [UIApplication sharedApplication];
+    [app performSelector:@selector(suspend)];
+}
 
 // Schedule a Notification to fire the instant the app goes into the background (pushing the home button).
 - (void)applicationDidEnterBackground:(UIApplication *)application {
